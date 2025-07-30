@@ -1,0 +1,359 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.layout { 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; 
+}
+
+.header { 
+    background:#007bff; 
+    color:#fff; 
+    padding:18px 0; 
+    text-align:center; 
+}
+
+.content-area { 
+    display:flex; 
+    flex:1; 
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.container h2 {
+    margin: 0;
+    color: #555;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+  
+/*  Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+th, td {
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid #dcdcdc; 
+    color: #333;
+  }
+  
+
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* Button & Input */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    padding: 10px;
+    margin: 6px 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+input[type="submit"],
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+button.cancel {
+    background-color: #dc3545;
+    margin-left: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+button.cancel:hover {
+    background-color: #c82333;
+}
+
+/* Modal (Form Popup) */
+
+.add_form {
+    position: fixed;
+    overflow-y: auto;
+    padding-right: 10px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.form_content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 500px;
+    max-height: 89vh;      
+    overflow-y: auto;        
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form_content h2 {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+}
+
+.form_content form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.form-group label {
+    min-width: 120px;
+    margin-right: 10px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    flex: 1;
+}
+
+.form_button {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+label.required::after {
+    content: ' *';
+    color: red;
+  }
+  
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background:#d0e4f9;
+  border-right:1px solid #e4e7eb;
+  padding:24px 12px;
+  box-shadow: 2px 0 6px rgba(0,0,0,.04);
+}
+
+.sidebar nav {
+    display:flex; 
+    flex-direction:column; 
+    gap:12px; 
+}
+
+.sidebar a {
+  color:#555;
+  font-weight:600;
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:6px;
+  transition:background .25s ease, color .25s ease;
+}
+
+.sidebar a:hover { 
+    background:#f1f3f5; 
+}
+
+.sidebar a.active { 
+    background:#007bff; 
+    color:#fff;
+}
+
+/* Main Area */
+.main { 
+    flex:1; 
+    padding:24px; 
+    background-color: #f7f7f7;
+
+}
+
+.main .container { 
+    margin:0 auto; 
+}
+
+.home-img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 24px;
+    border-radius: 12px;
+}
+
+/* Pagination  */
+.pager-link {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin: 0 8px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+  
+  .pager-link:hover:not(:disabled) {
+    background: rgba(0, 123, 255, 0.15);
+  }
+  
+  .pager-link:disabled {
+    color: #c0c0c0;
+    cursor: default;
+  }
+
+  table td:last-child {
+    white-space: nowrap;
+  }
+  table td:last-child .pager-link {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+.action-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;  
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    text-decoration: none;     
+  }
+  
+  /* Edit button */
+  .action-btn.edit   { background-color: #007bff; }
+  .action-btn.edit:hover   { opacity: 0.85; }
+  
+  /* Delete button */
+  .action-btn.delete { background-color: #dc3545; }
+  .action-btn.delete:hover { opacity: 0.85; }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  
+  .filter-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .filter-box label {
+    width: 170px;
+  }
+  
+  .filter-box select {
+    padding: 6px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
+  }
+
+  /* detail */
+
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  
+  .detail-table tr:nth-child(odd)  { background:#f9fbff; }   
+  .detail-table tr:nth-child(even) { background:#eef4ff; }
+  
+  .detail-table th,
+  .detail-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #d7e3ff;
+  }
+  
+  .detail-table th {
+    width: 40%;
+    text-align: left;
+    background:#e3ecfb;
+    color:#555;
+    font-weight: 500;
+    letter-spacing: .3px;
+  }
+  
+  .detail-table td {
+    color:#212529;
+    word-break: break-word;        /* 长字符串自动换行 */
+  }
+  
+  .detail-table tr:last-child th,
+  .detail-table tr:last-child td {
+    border-bottom:none;            /* 去掉最后一条下边线 */
+  }
+
+  .back-button {
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+
+
+
+
+  
+  
