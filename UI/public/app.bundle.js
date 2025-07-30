@@ -97,8 +97,16 @@ var EmployeeCreate = /*#__PURE__*/function (_React$Component) {
         // Date of Birth validation
         if (!dateOfBirth) {
           errors.dateOfBirth = 'Date of birth is required.';
-        } else if (dateOfBirth > today) {
-          errors.dateOfBirth = 'Date of birth cannot be in the future.';
+        } else {
+          var birthDate = new Date(dateOfBirth);
+          var birthYear = birthDate.getFullYear();
+          var currentYear = new Date().getFullYear();
+          var age = currentYear - birthYear;
+          if (birthDate > new Date()) {
+            errors.dateOfBirth = 'Date of birth cannot be in the future.';
+          } else if (age < 20 || age > 70) {
+            errors.dateOfBirth = 'Employee age must be between 20 and 70.';
+          }
         }
 
         // Date of Joining validation

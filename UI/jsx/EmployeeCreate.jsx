@@ -61,9 +61,19 @@ class EmployeeCreate extends React.Component {
       // Date of Birth validation
       if (!dateOfBirth) {
         errors.dateOfBirth = 'Date of birth is required.';
-      } else if (dateOfBirth > today) {
-        errors.dateOfBirth = 'Date of birth cannot be in the future.';
+      } else {
+        const birthDate = new Date(dateOfBirth);
+        const birthYear = birthDate.getFullYear();
+        const currentYear = new Date().getFullYear();
+        const age = currentYear - birthYear;
+
+        if (birthDate > new Date()) {
+          errors.dateOfBirth = 'Date of birth cannot be in the future.';
+        } else if (age < 20 || age > 70) {
+          errors.dateOfBirth = 'Employee age must be between 20 and 70.';
+        }
       }
+
 
        // Date of Joining validation
       if (!dateOfJoining) {
