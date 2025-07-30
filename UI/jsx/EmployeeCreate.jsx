@@ -6,13 +6,13 @@ class EmployeeCreate extends React.Component {
     super(props);
     const d = props.initialData || {};
     this.state = {
-      firstName:     d.firstName || '',
-      lastName:      d.lastName  || '',
-      dateOfBirth:   d.dateOfBirth ? d.dateOfBirth.slice(0, 10) : '',
+      firstName: d.firstName || '',
+      lastName: d.lastName  || '',
+      dateOfBirth: d.dateOfBirth ? d.dateOfBirth.slice(0, 10) : '',
       dateOfJoining: d.dateOfJoining ? d.dateOfJoining.slice(0, 10) : '',
-      title:         d.title || 'Employee',
-      department:    d.department || 'IT',
-      employeeType:  d.employeeType || 'FullTime',
+      title: d.title || 'Employee',
+      department: d.department || 'IT',
+      employeeType: d.employeeType || 'FullTime',
       currentStatus: d.currentStatus ?? 1,
       errors: {},
       touched: {},
@@ -31,6 +31,7 @@ class EmployeeCreate extends React.Component {
     this.setState(prev => ({ touched: { ...prev.touched, [name]: true } }), this.validate);
   }
 
+  // input validation
   validate = () => {
     const { isEdit } = this.props;
     const { firstName, lastName, dateOfBirth, dateOfJoining } = this.state;
@@ -39,17 +40,39 @@ class EmployeeCreate extends React.Component {
     const today = new Date().toISOString().split('T')[0];
 
     if (!isEdit) {
-      if (!firstName.trim()) errors.firstName = 'Required.';
-      else if (!nameRegex.test(firstName.trim())) errors.firstName = 'Letters only.';
+      // First Name validation
+      if (!firstName.trim()) {
+        errors.firstName = 'First name is required.';
+      } else if (firstName.trim().length < 2) {
+        errors.firstName = 'First name must be at least 2 characters.';
+      } else if (!nameRegex.test(firstName.trim())) {
+        errors.firstName = 'First name can only contain letters and spaces.';
+      }
 
-      if (!lastName.trim()) errors.lastName = 'Required.';
-      else if (!nameRegex.test(lastName.trim())) errors.lastName = 'Letters only.';
+      // Last Name validation
+      if (!lastName.trim()) {
+        errors.lastName = 'Last name is required.';
+      } else if (lastName.trim().length < 2) {
+        errors.lastName = 'Last name must be at least 2 characters.';
+      } else if (!nameRegex.test(lastName.trim())) {
+        errors.lastName = 'Last name can only contain letters and spaces.';
+      }
 
-      if (!dateOfBirth) errors.dateOfBirth = 'Required.';
-      else if (dateOfBirth > today) errors.dateOfBirth = 'Future not allowed.';
+      // Date of Birth validation
+      if (!dateOfBirth) {
+        errors.dateOfBirth = 'Date of birth is required.';
+      } else if (dateOfBirth > today) {
+        errors.dateOfBirth = 'Date of birth cannot be in the future.';
+      }
 
-      if (!dateOfJoining) errors.dateOfJoining = 'Required.';
-      else if (dateOfJoining > today) errors.dateOfJoining = 'Future not allowed.';
+       // Date of Joining validation
+      if (!dateOfJoining) {
+        errors.dateOfJoining = 'Date of joining is required.';
+      } else if (dateOfJoining > today) {
+        errors.dateOfJoining = 'Date of joining cannot be in the future.';
+      } else if (dateOfBirth && dateOfJoining < dateOfBirth) {
+        errors.dateOfJoining = 'Joining date must be after date of birth.';
+      }
     }
 
     this.setState({ errors });
@@ -72,11 +95,12 @@ class EmployeeCreate extends React.Component {
       });
       return;
     }
-
+    // edit mode
     if (isEdit) {
       const { title, department, currentStatus } = this.state;
       onSubmit({ title, department, currentStatus: parseInt(currentStatus, 10) });
     } else {
+      // add mode
       const {
         firstName, lastName, dateOfBirth, dateOfJoining,
         title, department, employeeType,
@@ -224,7 +248,7 @@ class EmployeeCreate extends React.Component {
               </Form.Select>
             </Form.Group>
 
-            {/* Status（编辑时可改；新增默认 1） */}
+            {/* Status field (edit mode only) */}
             {isEdit && (
               <Form.Group className="mb-2" controlId="currentStatus">
                 <Form.Label>Status<span style={{color:'red'}}> *</span></Form.Label>

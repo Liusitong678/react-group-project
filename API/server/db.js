@@ -3,7 +3,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const DB_URL = 'mongodb+srv://sitong:sitong@cluster0.cbslt.mongodb.net/staffManagementSystem?retryWrites=true&w=majority';
 let db;
 
-// 连接数据库
+// Connect to MongoDB
 async function dbConnect() {
   if (db) return db;
   const client = await MongoClient.connect(DB_URL, {
@@ -14,22 +14,22 @@ async function dbConnect() {
   return db;
 }
 
-// 获取所有员工
+// Fetch all employees from the collection
 async function dbGetEmployees() {
   return await db.collection('employees').find({}).toArray();
 }
 
-// 根据 ID 获取员工
+// Find one employee by ID
 async function dbGetEmployeeById(id) {
   const d = await dbConnect();
   return d.collection('employees').findOne({ _id: ObjectId(id) });
 }
 
-// 添加新员工（自动计算年龄）
+// Add a new employee 
 async function dbAddEmployee(employee) {
   employee.currentStatus = 1;
 
-  // 自动计算年龄
+  // Auto-calculate age from date of birth
   if (employee.dateOfBirth) {
     const birthDate = new Date(employee.dateOfBirth);
     const age = new Date().getFullYear() - birthDate.getFullYear();
@@ -40,7 +40,7 @@ async function dbAddEmployee(employee) {
   return employee;
 }
 
-// 更新员工信息
+// Update employee record
 async function dbUpdateEmployee(id, changes) {
   const d = await dbConnect();
   const { value } = await d.collection('employees').findOneAndUpdate(
@@ -51,7 +51,7 @@ async function dbUpdateEmployee(id, changes) {
   return value;
 }
 
-// 删除员工（仅限于非激活）
+// Delete an employee (only allowed if status is inactive)
 async function dbDeleteEmployee(id) {
   const d = await dbConnect();
   const emp = await db.collection('employees').findOne({ _id: ObjectId(id) });

@@ -19,7 +19,7 @@ export default function Page() {
           <nav className="nav flex-column">
             <NavLink end to="/home" className="nav-link">Home</NavLink>
             <NavLink end to="/employees" className="nav-link">Employees</NavLink>
-            <NavLink end to="/upcoming" className="nav-link">Upcoming Retirement</NavLink> {/* ✅ 新增 */}
+            <NavLink end to="/upcoming" className="nav-link">Upcoming Retirement</NavLink> 
           </nav>
         </aside>
 
@@ -29,7 +29,7 @@ export default function Page() {
             <Route path="/home" element={<Home />} />
             <Route path="/employees" element={<EmployeeDirectory />} />
             <Route path="/employees/:id" element={<EmployeeDetail />} />
-            <Route path="/upcoming" element={<UpcomingRetirement />} /> {/* ✅ 新增 */}
+            <Route path="/upcoming" element={<UpcomingRetirement />} /> 
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

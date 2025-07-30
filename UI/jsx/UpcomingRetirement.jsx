@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+// Retirement age threshold
 const RETIREMENT_AGE = 65;
+// How far in advance to check for upcoming retirements
 const UPCOMING_MONTHS = 6;
 
 const UpcomingRetirement = () => {
@@ -32,6 +34,7 @@ const UpcomingRetirement = () => {
       const result = await response.json();
       if (result?.data?.employeeList) {
         const today = new Date();
+        // Filter employees who are retiring within the next 6 months
         const filtered = result.data.employeeList.filter((emp) => {
           if (!emp.dateOfBirth) return false;
           const dob = new Date(emp.dateOfBirth);
@@ -40,7 +43,7 @@ const UpcomingRetirement = () => {
 
           const sixMonthsLater = new Date(today);
           sixMonthsLater.setMonth(sixMonthsLater.getMonth() + UPCOMING_MONTHS);
-
+          // Include only if retirement date falls within the upcoming 6 months
           return retirementDate >= today && retirementDate <= sixMonthsLater;
         });
         setEmployees(filtered);

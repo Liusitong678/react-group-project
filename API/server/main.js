@@ -15,7 +15,7 @@ const {
 const app = express();
 app.use(express.static('public'));
 
-// 自定义日期类型
+// Custom scalar type for Date values
 const GraphQLDate = new GraphQLScalarType({
   name: 'GraphQLDate',
   description: 'A custom scalar to handle Date values',
@@ -24,7 +24,7 @@ const GraphQLDate = new GraphQLScalarType({
   parseLiteral: ast => new Date(ast.value),
 });
 
-// GraphQL 类型定义
+// GraphQL type definitions (schema)
 const typeDefs = `#graphql
   scalar GraphQLDate
 
@@ -69,9 +69,9 @@ const typeDefs = `#graphql
   }
 `;
 
-// 解析器
 const resolvers = {
   Query: {
+    // Return all employees, and calculate age if not present
     employeeList: async () => {
       const list = await dbGetEmployees();
       return list.map(emp => {
@@ -89,6 +89,7 @@ const resolvers = {
       });
     },
 
+    // Return one employee by ID, and calculate age if needed
     employee: async (_, { id }) => {
       const emp = await dbGetEmployeeById(id);
       if (!emp) return null;
@@ -117,15 +118,15 @@ const resolvers = {
   GraphQLDate,
 };
 
-
+// Start Apollo GraphQL server
 const server = new ApolloServer({ typeDefs, resolvers });
 const enableCors = (process.env.ENABLE_CORS || 'true') === 'true';
 const port = process.env.API_PORT || 3000;
 
 server.start().then(() => {
   server.applyMiddleware({ app, path: '/graphql', cors: enableCors });
-  dbConnect();
+  dbConnect(); // Connect to MongoDB
   app.listen(port, () => {
-    console.log(`🚀 Server running at http://localhost:${port}${server.graphqlPath}`);
+    console.log(` Server running at http://localhost:${port}${server.graphqlPath}`);
   });
 });

@@ -18,19 +18,22 @@ class EmployeeDirectory extends React.Component {
     const initFilter = getTypeFromURL();
     this.state = {
       employee: [],
-      showModal: false,
-      showEditModal: false,
-      editingEmp: null,
+      showModal: false, // Add
+      showEditModal: false, // Edit
+      editingEmp: null, // being edited
       currentPage: 1,
       pageSize: 10,
       filterType: initFilter,
     };
+    // add
     this.createEmployee = this.createEmployee.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    // edit
     this.openEditModal = this.openEditModal.bind(this);
     this.closeEditModal = this.closeEditModal.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
+    //delete
     this.handleDelete = this.handleDelete.bind(this);
     this.changePage = this.changePage.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
@@ -63,6 +66,7 @@ class EmployeeDirectory extends React.Component {
       body: JSON.stringify({ query }),
     });
     const result = await response.json();
+    //sort
     const sorted = result.data?.employeeList?.slice()?.sort((a, b) =>
       a._id.localeCompare(b._id)
     ) || [];
@@ -70,6 +74,7 @@ class EmployeeDirectory extends React.Component {
     
   }
 
+  //add part
   async createEmployee(e) {
     const mutation = `
       mutation addEmployee($employee: EmployeeInput!) {
@@ -104,6 +109,7 @@ class EmployeeDirectory extends React.Component {
     this.setState({ showModal: false });
   }
 
+  //edit part
   async handleEditSubmit(changes) {
     const mutation = `
       mutation ($id: ID!, $changes: EmployeeUpdateInput!) {
@@ -131,6 +137,7 @@ class EmployeeDirectory extends React.Component {
     this.setState({ showEditModal: false, editingEmp: null });
   }
 
+  //delete
   async handleDelete(id) {
     const query = `
       query ($id: ID!) {
@@ -148,7 +155,7 @@ class EmployeeDirectory extends React.Component {
     });
     const result = await res.json();
     const emp = result.data.employee;
-
+    // Determine whether the status is active
     if (emp.currentStatus === 1) {
       alert(`CAN'T DELETE EMPLOYEE - STATUS ACTIVE`);
       return;
@@ -242,6 +249,7 @@ class EmployeeDirectory extends React.Component {
           </button>
         </div>
 
+        {/* Add Modal */}
         {showModal && (
           <EmployeeCreate
             onSubmit={this.createEmployee}
@@ -249,6 +257,7 @@ class EmployeeDirectory extends React.Component {
           />
         )}
 
+        {/* Edit Modal */}
         {showEditModal && editingEmp && (
           <EmployeeCreate
             isEdit

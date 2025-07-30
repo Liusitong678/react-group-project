@@ -64,6 +64,7 @@ var EmployeeCreate = /*#__PURE__*/function (_React$Component) {
     var _this;
     _classCallCheck(this, EmployeeCreate);
     _this = _callSuper(this, EmployeeCreate, [props]);
+    // input validation
     _defineProperty(_this, "validate", function () {
       var isEdit = _this.props.isEdit;
       var _this$state = _this.state,
@@ -75,10 +76,39 @@ var EmployeeCreate = /*#__PURE__*/function (_React$Component) {
       var nameRegex = /^[A-Za-z\s]+$/;
       var today = new Date().toISOString().split('T')[0];
       if (!isEdit) {
-        if (!firstName.trim()) errors.firstName = 'Required.';else if (!nameRegex.test(firstName.trim())) errors.firstName = 'Letters only.';
-        if (!lastName.trim()) errors.lastName = 'Required.';else if (!nameRegex.test(lastName.trim())) errors.lastName = 'Letters only.';
-        if (!dateOfBirth) errors.dateOfBirth = 'Required.';else if (dateOfBirth > today) errors.dateOfBirth = 'Future not allowed.';
-        if (!dateOfJoining) errors.dateOfJoining = 'Required.';else if (dateOfJoining > today) errors.dateOfJoining = 'Future not allowed.';
+        // First Name validation
+        if (!firstName.trim()) {
+          errors.firstName = 'First name is required.';
+        } else if (firstName.trim().length < 2) {
+          errors.firstName = 'First name must be at least 2 characters.';
+        } else if (!nameRegex.test(firstName.trim())) {
+          errors.firstName = 'First name can only contain letters and spaces.';
+        }
+
+        // Last Name validation
+        if (!lastName.trim()) {
+          errors.lastName = 'Last name is required.';
+        } else if (lastName.trim().length < 2) {
+          errors.lastName = 'Last name must be at least 2 characters.';
+        } else if (!nameRegex.test(lastName.trim())) {
+          errors.lastName = 'Last name can only contain letters and spaces.';
+        }
+
+        // Date of Birth validation
+        if (!dateOfBirth) {
+          errors.dateOfBirth = 'Date of birth is required.';
+        } else if (dateOfBirth > today) {
+          errors.dateOfBirth = 'Date of birth cannot be in the future.';
+        }
+
+        // Date of Joining validation
+        if (!dateOfJoining) {
+          errors.dateOfJoining = 'Date of joining is required.';
+        } else if (dateOfJoining > today) {
+          errors.dateOfJoining = 'Date of joining cannot be in the future.';
+        } else if (dateOfBirth && dateOfJoining < dateOfBirth) {
+          errors.dateOfJoining = 'Joining date must be after date of birth.';
+        }
       }
       _this.setState({
         errors: errors
@@ -138,6 +168,7 @@ var EmployeeCreate = /*#__PURE__*/function (_React$Component) {
         });
         return;
       }
+      // edit mode
       if (isEdit) {
         var _this$state2 = this.state,
           title = _this$state2.title,
@@ -149,6 +180,7 @@ var EmployeeCreate = /*#__PURE__*/function (_React$Component) {
           currentStatus: parseInt(currentStatus, 10)
         });
       } else {
+        // add mode
         var _this$state3 = this.state,
           firstName = _this$state3.firstName,
           lastName = _this$state3.lastName,
@@ -511,18 +543,24 @@ var EmployeeDirectory = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       employee: [],
       showModal: false,
+      // Add
       showEditModal: false,
+      // Edit
       editingEmp: null,
+      // being edited
       currentPage: 1,
       pageSize: 10,
       filterType: initFilter
     };
+    // add
     _this.createEmployee = _this.createEmployee.bind(_this);
     _this.openModal = _this.openModal.bind(_this);
     _this.closeModal = _this.closeModal.bind(_this);
+    // edit
     _this.openEditModal = _this.openEditModal.bind(_this);
     _this.closeEditModal = _this.closeEditModal.bind(_this);
     _this.handleEditSubmit = _this.handleEditSubmit.bind(_this);
+    //delete
     _this.handleDelete = _this.handleDelete.bind(_this);
     _this.changePage = _this.changePage.bind(_this);
     _this.handleFilterChange = _this.handleFilterChange.bind(_this);
@@ -571,6 +609,7 @@ var EmployeeDirectory = /*#__PURE__*/function (_React$Component) {
               return response.json();
             case 2:
               result = _context.sent;
+              //sort
               sorted = ((_result$data = result.data) === null || _result$data === void 0 || (_result$data = _result$data.employeeList) === null || _result$data === void 0 || (_result$data = _result$data.slice()) === null || _result$data === void 0 ? void 0 : _result$data.sort(function (a, b) {
                 return a._id.localeCompare(b._id);
               })) || [];
@@ -587,7 +626,7 @@ var EmployeeDirectory = /*#__PURE__*/function (_React$Component) {
         return _loadData.apply(this, arguments);
       }
       return loadData;
-    }()
+    }() //add part
   }, {
     key: "createEmployee",
     value: function () {
@@ -647,6 +686,8 @@ var EmployeeDirectory = /*#__PURE__*/function (_React$Component) {
         showModal: false
       });
     }
+
+    //edit part
   }, {
     key: "handleEditSubmit",
     value: function () {
@@ -701,6 +742,8 @@ var EmployeeDirectory = /*#__PURE__*/function (_React$Component) {
         editingEmp: null
       });
     }
+
+    //delete
   }, {
     key: "handleDelete",
     value: function () {
@@ -729,7 +772,7 @@ var EmployeeDirectory = /*#__PURE__*/function (_React$Component) {
               return res.json();
             case 2:
               result = _context4.sent;
-              emp = result.data.employee;
+              emp = result.data.employee; // Determine whether the status is active
               if (!(emp.currentStatus === 1)) {
                 _context4.next = 3;
                 break;
@@ -1124,7 +1167,7 @@ function Page() {
     end: true,
     to: "/upcoming",
     className: "nav-link"
-  }, "Upcoming Retirement"), " ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
+  }, "Upcoming Retirement"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("main", {
     className: "main"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
     path: "/",
@@ -1144,7 +1187,7 @@ function Page() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
     path: "/upcoming",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_UpcomingRetirement_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], null)
-  }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
     path: "*",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_NotFound_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], null)
   })))));
@@ -1178,7 +1221,10 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 
+
+// Retirement age threshold
 var RETIREMENT_AGE = 65;
+// How far in advance to check for upcoming retirements
 var UPCOMING_MONTHS = 6;
 var UpcomingRetirement = function UpcomingRetirement() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
@@ -1211,7 +1257,7 @@ var UpcomingRetirement = function UpcomingRetirement() {
             case 2:
               result = _context.sent;
               if (result !== null && result !== void 0 && (_result$data = result.data) !== null && _result$data !== void 0 && _result$data.employeeList) {
-                today = new Date();
+                today = new Date(); // Filter employees who are retiring within the next 6 months
                 filtered = result.data.employeeList.filter(function (emp) {
                   if (!emp.dateOfBirth) return false;
                   var dob = new Date(emp.dateOfBirth);
@@ -1219,6 +1265,7 @@ var UpcomingRetirement = function UpcomingRetirement() {
                   retirementDate.setFullYear(retirementDate.getFullYear() + RETIREMENT_AGE);
                   var sixMonthsLater = new Date(today);
                   sixMonthsLater.setMonth(sixMonthsLater.getMonth() + UPCOMING_MONTHS);
+                  // Include only if retirement date falls within the upcoming 6 months
                   return retirementDate >= today && retirementDate <= sixMonthsLater;
                 });
                 setEmployees(filtered);
